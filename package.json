@@ -1,0 +1,23 @@
+{
+  "name": "api-v2",
+  "version": "0.0.0",
+  "description": "lyric api",
+  "main": "./dist/app.js",
+  "scripts": {
+    "build": "tsup",
+    "watch": "tsup -w",
+    "start": "node dist/app.js",
+    "dev": "tsup --watch --onSuccess \"node ./dist/app.js\"",
+    "format": "prettier --write \"src/**/*.ts\""
+  },
+  "author": "renzynx",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^17.0.21",
+    "@typescript-eslint/eslint-plugin": "^5.12.1",
+    "eslint": "^8.10.0",
+    "prettier": "^2.5.1",
+    "tsup": "^5.11.13"
+  },
+  "packageManager": "yarn@3.2.0"
+}
