@@ -23,9 +23,9 @@ passport.deserializeUser((id: string, done) => {
 
 const strat = new DiscordStrategy(
 	{
-		clientID: '776094191095775294',
-		clientSecret: '-nqsMejqCYPW0VPkXfBBl0-yKn5mevOs',
-		callbackURL: 'http://localhost:42069/login/callback',
+		clientID: process.env.BOT_ID!,
+		clientSecret: process.env.BOT_SECRET!,
+		callbackURL: process.env.CALLBACK_URL!,
 		scope: ['identify', 'guilds']
 	},
 	async (accessToken, refreshToken, profile, done) => {
