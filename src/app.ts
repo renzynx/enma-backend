@@ -30,9 +30,7 @@ const bootstrap = async () => {
 				resave: false,
 				saveUninitialized: false,
 				name: 'qid',
-				cookie: {
-					maxAge: 1000 * 60 * 60 * 24 * 7
-				},
+				cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 },
 				store: new redisStore({ client: redisClient })
 			})
 		);
