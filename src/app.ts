@@ -27,7 +27,7 @@ const bootstrap = async () => {
 		app.use(
 			cors({
 				credentials: true,
-				origin: process.env.NODE_ENV === 'production' ? 'https://preview-frontend.vercel.app' : 'http://localhost:3000'
+				origin: process.env.NODE_ENV === 'production' ? 'https://beta.renzynx.space' : 'http://localhost:3000'
 			})
 		);
 		app.use(
@@ -38,7 +38,7 @@ const bootstrap = async () => {
 				name: 'qid',
 				cookie: {
 					maxAge: 1000 * 60 * 60 * 24 * 7,
-					domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined,
+					domain: process.env.NODE_ENV === 'production' ? '.renzynx.space' : undefined,
 					httpOnly: true,
 					secure: process.env.NODE_ENV === 'production'
 				},
