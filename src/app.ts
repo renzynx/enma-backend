@@ -23,13 +23,14 @@ const bootstrap = async () => {
 		const app = express();
 		const httpServer = http.createServer(app);
 
-		app.use(cors({ credentials: true, origin: process.env.FRONTEND_DOMAIN }));
+		app.use(cors({ credentials: true, origin: process.env.FRONTEND_URL }));
 		app.use(
 			session({
 				secret: 'keyboard cat',
 				resave: false,
 				saveUninitialized: false,
 				name: 'qid',
+				rolling: true,
 				cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 },
 				store: new redisStore({ client: redisClient })
 			})
