@@ -31,9 +31,7 @@ const bootstrap = async () => {
 				saveUninitialized: false,
 				name: 'qid',
 				cookie: {
-					maxAge: 1000 * 60 * 60 * 24 * 7,
-					domain: process.env.NODE_ENV === 'production' ? process.env.FRONTEND_URL : undefined,
-					sameSite: 'lax'
+					maxAge: 1000 * 60 * 60 * 24 * 7
 				},
 				store: new redisStore({ client: redisClient })
 			})
