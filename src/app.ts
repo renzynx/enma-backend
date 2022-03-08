@@ -23,7 +23,7 @@ const bootstrap = async () => {
 		const app = express();
 		const httpServer = http.createServer(app);
 
-		app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+		app.use(cors({ credentials: true, origin: process.env.FRONTEND_DOMAIN }));
 		app.use(
 			session({
 				secret: 'keyboard cat',
