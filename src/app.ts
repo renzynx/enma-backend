@@ -1,3 +1,6 @@
+import 'reflect-metadata';
+import './lib/strategy';
+import { config } from 'dotenv';
 import { ApolloServerPluginDrainHttpServer, ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 import { ApolloServer } from 'apollo-server-express';
 import connectRedis from 'connect-redis';
@@ -7,16 +10,17 @@ import session from 'express-session';
 import http from 'http';
 import Redis from 'ioredis';
 import passport from 'passport';
-import 'reflect-metadata';
 import { buildSchema } from 'type-graphql';
 import { PORT } from './lib/constants';
 import logger from './lib/logger';
-import './lib/strategy';
 import { UserResolver } from './resolvers/user.resolver';
 import login from './routes/login';
 
+config();
+
 const bootstrap = async () => {
 	try {
+		console.log(process.env.NODE_ENV);
 		const redisClient = new Redis(process.env.REDIS_URL!, { keepAlive: 5000 });
 		const redisStore = connectRedis(session);
 
@@ -38,9 +42,9 @@ const bootstrap = async () => {
 				name: 'qid',
 				cookie: {
 					maxAge: 1000 * 60 * 60 * 24 * 7,
-					domain: process.env.NODE_ENV === 'production' ? '.renzynx.space' : undefined,
 					httpOnly: true,
-					secure: process.env.NODE_ENV === 'production'
+					secure: process.env.NODE_ENV === 'production',
+					domain: process.env.NODE_ENV === 'production' ? '.renzynx.space' : undefined
 				},
 				store: new redisStore({ client: redisClient })
 			})
