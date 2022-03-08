@@ -4,6 +4,6 @@ import passport from 'passport';
 const router = Router();
 
 router.get('/', passport.authenticate('discord', { prompt: 'consent' }));
-router.get('/callback', passport.authenticate('discord'), (_req, res) => res.redirect('http://localhost:3000/dashboard'));
+router.get('/callback', passport.authenticate('discord'), (_req, res) => res.redirect(`${process.env.FRONTEND_DOMAIN}/login`));
 
 export default router;

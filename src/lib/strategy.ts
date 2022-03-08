@@ -50,22 +50,21 @@ const strat = new DiscordStrategy(
 				return done(null, user);
 			}
 
-			const [newUser] = await Promise.all([
-				prisma.user.create({
-					data: {
-						uid: profile.id,
-						username: profile.username,
-						avatar: profile.avatar
-					}
-				}),
-				prisma.oAuth.create({
-					data: {
-						uid: profile.id,
-						access_token,
-						refresh_token
-					}
-				})
-			]);
+			const newUser = await prisma.user.create({
+				data: {
+					uid: profile.id,
+					username: profile.username,
+					avatar: profile.avatar
+				}
+			});
+
+			await prisma.oAuth.create({
+				data: {
+					uid: newUser.uid,
+					access_token,
+					refresh_token
+				}
+			});
 
 			return done(null, newUser);
 		} catch (error: any) {
