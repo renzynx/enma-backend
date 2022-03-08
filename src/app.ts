@@ -24,7 +24,12 @@ const bootstrap = async () => {
 		const httpServer = http.createServer(app);
 
 		app.set('trust proxy', 1);
-		app.use(cors({ credentials: true, origin: '*' }));
+		app.use(
+			cors({
+				credentials: true,
+				origin: process.env.NODE_ENV === 'production' ? 'https://preview-frontend.vercel.app' : 'http://localhost:3000'
+			})
+		);
 		app.use(
 			session({
 				secret: 'keyboard cat',
