@@ -24,7 +24,7 @@ const bootstrap = async () => {
 		const httpServer = http.createServer(app);
 
 		app.set('trust proxy', 1);
-		app.use(cors({ credentials: true, origin: process.env.FRONTEND_URL }));
+		app.use(cors({ credentials: true, origin: '*' }));
 		app.use(
 			session({
 				secret: 'keyboard cat',
