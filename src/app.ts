@@ -17,7 +17,7 @@ import login from './routes/login';
 
 const bootstrap = async () => {
 	try {
-		const redisClient = new Redis('redis://default:Ep8Cv6616hQ2VeMnzfwB@containers-us-west-2.railway.app:6081', { keepAlive: 5000 });
+		const redisClient = new Redis(process.env.REDIS_URL!, { keepAlive: 5000 });
 		const redisStore = connectRedis(session);
 
 		const app = express();
@@ -30,7 +30,11 @@ const bootstrap = async () => {
 				resave: false,
 				saveUninitialized: false,
 				name: 'qid',
-				cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 },
+				cookie: {
+					maxAge: 1000 * 60 * 60 * 24 * 7,
+					domain: process.env.NODE_ENV === 'production' ? process.env.FRONTEND_DOMAIN : undefined,
+					sameSite: 'lax'
+				},
 				store: new redisStore({ client: redisClient })
 			})
 		);
