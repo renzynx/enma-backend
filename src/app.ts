@@ -38,7 +38,7 @@ const bootstrap = async () => {
 				name: 'qid',
 				cookie: {
 					maxAge: 1000 * 60 * 60 * 24 * 7,
-					domain: process.env.FRONTEND_URL,
+					domain: process.env.NODE_ENV === 'production' ? '.vercel.app' : undefined,
 					httpOnly: true,
 					secure: process.env.NODE_ENV === 'production'
 				},
