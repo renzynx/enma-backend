@@ -38,8 +38,6 @@ const getBotGuilds = async () => {
 const getUserGuilds = async (id: string): Promise<PartialGuild[] | null> => {
 	try {
 		const userToken = await prisma.oAuth.findUnique({ where: { uid: id } });
-		const accessToken = decrypt(userToken?.access_token!);
-		console.log(accessToken);
 		const res = await axios.get<PartialGuild[]>(`${DISCORD_API_BASE}/users/@me/guilds`, {
 			headers: {
 				Authorization: `Bearer ${decrypt(userToken?.access_token!)}`
