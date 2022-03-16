@@ -60,7 +60,7 @@ const getUserGuilds = async (id: string): Promise<PartialGuild[]> => {
 				where: { uid: id },
 				data: { access_token: encrypt(accessToken), refresh_token: encrypt(refreshToken) }
 			});
-			return getUserGuilds(id);
+			return await getUserGuilds(id);
 		});
 	}
 
