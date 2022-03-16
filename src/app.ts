@@ -20,7 +20,7 @@ config();
 
 const bootstrap = async () => {
 	try {
-		console.log(process.env.NODE_ENV);
+		logger.info(`Starting server in ${process.env.NODE_ENV} mode`);
 		const redisClient = new Redis(process.env.REDIS_URL!, { keepAlive: 5000 });
 		const redisStore = connectRedis(session);
 
@@ -67,7 +67,7 @@ const bootstrap = async () => {
 		logger.success(`[bootstrap] Server is listening on address http://localhost:${PORT}`);
 		logger.success(`[bootstrap] GraphQL Playground is available at http://localhost:${PORT}/graphql`);
 	} catch (error: any) {
-		logger.error(`[bootstrap] ${error.message}`);
+		throw new Error(error);
 	}
 };
 

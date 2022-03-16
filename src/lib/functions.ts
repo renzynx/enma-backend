@@ -44,27 +44,31 @@ const getBotGuilds = async () => {
 	return res.data;
 };
 
-const getUserGuilds = async (id: string): Promise<PartialGuild[]> => {
-	const userToken = await prisma.oAuth.findUnique({ where: { uid: id } });
+const getUserGuilds = async (id: string): Promise<PartialGuild[] | null> => {
+	try {
+		const userToken = await prisma.oAuth.findUnique({ where: { uid: id } });
 
-	const res = await axios.get<PartialGuild[]>(`${DISCORD_API_BASE}/users/@me/guilds`, {
-		headers: {
-			Authorization: `Bearer ${decrypt(userToken?.access_token!)}`
-		}
-	});
-
-	if (res.status === 401) {
-		return refresh.requestNewAccessToken('discord', userToken?.refresh_token!, async (error, accessToken, refreshToken) => {
-			logger.info(error);
-			await prisma.oAuth.update({
-				where: { uid: id },
-				data: { access_token: encrypt(accessToken), refresh_token: encrypt(refreshToken) }
-			});
-			return await getUserGuilds(id);
+		const res = await axios.get<PartialGuild[]>(`${DISCORD_API_BASE}/users/@me/guilds`, {
+			headers: {
+				Authorization: `Bearer ${decrypt(userToken?.access_token!)}`
+			}
 		});
-	}
 
-	return res.data;
+		return res.data;
+	} catch (error: any) {
+		if (error.response.status == 401) {
+			const refreshToken = await prisma.oAuth.findUnique({ where: { uid: id } });
+			return refresh.requestNewAccessToken('discord', refreshToken?.refresh_token!, async (error, accessToken, refreshToken) => {
+				error && logger.info(error);
+				await prisma.oAuth.update({
+					where: { uid: id },
+					data: { access_token: encrypt(accessToken), refresh_token: encrypt(refreshToken) }
+				});
+				return await getUserGuilds(id);
+			});
+		}
+		return null;
+	}
 };
 
 export { encrypt, decrypt, getBotGuilds, getUserGuilds };
