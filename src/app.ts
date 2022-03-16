@@ -67,7 +67,7 @@ const bootstrap = async () => {
 		logger.success(`[bootstrap] Server is listening on address http://localhost:${PORT}`);
 		logger.success(`[bootstrap] GraphQL Playground is available at http://localhost:${PORT}/graphql`);
 	} catch (error: any) {
-		throw new Error(error);
+		logger.error(error.message);
 	}
 };
 

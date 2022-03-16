@@ -47,6 +47,14 @@ const strat = new DiscordStrategy(
 						}
 					});
 				}
+
+				if (oauth && !oauth.access_token) {
+					await prisma.oAuth.update({
+						where: { uid: profile.id },
+						data: { access_token, refresh_token }
+					});
+				}
+
 				return done(null, user);
 			}
 
