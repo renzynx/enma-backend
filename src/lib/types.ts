@@ -15,6 +15,7 @@ export interface PartialGuild {
 	owner: boolean;
 	permissions: string;
 	features: string[];
+	exclude?: boolean;
 }
 
 @ObjectType()
@@ -51,13 +52,13 @@ class GraphqlMutualGuilds {
 
 	@Field(() => [String])
 	features!: string[];
+
+	@Field({ nullable: true })
+	exclude?: boolean;
 }
 
 @ObjectType()
 export class MutualGuilds {
 	@Field(() => [GraphqlMutualGuilds])
-	included!: [];
-
-	@Field(() => [GraphqlMutualGuilds])
-	excluded!: PartialGuild[];
+	guilds!: PartialGuild[];
 }
